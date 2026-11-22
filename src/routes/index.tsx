@@ -43,27 +43,29 @@ function Index() {
 
   return (
     <main className="min-h-screen overflow-x-hidden">
-      <header className="mx-auto max-w-6xl px-5 pt-14 pb-16 md:pt-24">
-        <p className="inline-block -rotate-2 rounded-full bg-spray px-4 py-1 font-block text-xl tracking-widest text-spray-foreground">Guia de rua • 2026</p>
+      <header className="relative mx-auto max-w-6xl px-5 pt-14 pb-16 md:pt-24">
+        <div aria-hidden className="pointer-events-none absolute -top-10 right-0 h-56 w-56 rounded-full bg-accent/20 blur-3xl" />
+        <div aria-hidden className="pointer-events-none absolute top-40 -left-16 h-64 w-64 rounded-full bg-secondary/20 blur-3xl" />
+        <p className="inline-block rounded-full bg-spray px-5 py-1.5 font-block text-lg font-semibold tracking-wide text-spray-foreground">Guia de rua • 2026</p>
         <h1 className="tag-text mt-6 text-6xl leading-none text-primary md:text-8xl">Mural<br />das IAs</h1>
         <p className="mt-8 max-w-xl text-lg text-muted-foreground">
           As ferramentas de inteligência artificial que valem a pena — sem enrolação: o que fazem, onde usar, no que mandam bem e quanto custam.
         </p>
-        <a href="#ias" className="sticker-pink mt-8 inline-block rounded-full bg-primary px-7 py-3 font-block text-2xl tracking-wider text-primary-foreground transition-transform hover:-translate-y-1">Ver o mural ↓</a>
+        <a href="#ias" className="sticker-pink mt-8 inline-block rounded-full bg-primary px-8 py-3 font-block text-xl font-semibold tracking-wide text-primary-foreground transition-transform hover:-translate-y-1">Ver o mural ↓</a>
       </header>
 
-      <section className="bg-secondary/90 py-3">
-        <div className="flex gap-10 whitespace-nowrap font-block text-2xl tracking-widest text-secondary-foreground">
-          {Array.from({ length: 3 }).flatMap((_, k) => IAS.map((i) => <span key={k + i.nome}>★ {i.nome}</span>))}
+      <section className="px-5">
+        <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-x-8 gap-y-1 rounded-full bg-secondary/90 px-8 py-3 font-block text-lg font-semibold tracking-wide text-secondary-foreground">
+          {IAS.map((i) => <span key={i.nome}>★ {i.nome}</span>)}
         </div>
       </section>
 
       <section id="ias" className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="font-block text-5xl tracking-wide md:text-6xl">As ferramentas</h2>
+        <h2 className="font-display text-5xl font-bold tracking-wide md:text-6xl">As ferramentas</h2>
         <div className="mt-6 flex flex-wrap gap-2">
           {CATS.map((c) => (
             <button key={c} onClick={() => setCat(c)}
-              className={`rounded-full border border-border px-4 py-1.5 font-block text-lg tracking-wider transition-colors ${cat === c ? "bg-primary text-primary-foreground" : "bg-card text-foreground hover:bg-muted"}`}>
+              className={`rounded-full border border-border px-5 py-1.5 font-block text-base font-semibold tracking-wide transition-all ${cat === c ? "border-transparent bg-primary text-primary-foreground" : "bg-card text-foreground hover:bg-muted"}`}>
               {c}
             </button>
           ))}
@@ -71,23 +73,23 @@ function Index() {
 
         <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
           {lista.map((ia) => (
-            <article key={ia.nome} className={`sticker flex flex-col rounded-3xl bg-card p-6 transition-transform duration-300 hover:-translate-y-1.5 `}>
+            <article key={ia.nome} className="sticker card-soft group flex flex-col rounded-[2rem] p-6 transition-all duration-300 hover:-translate-y-1.5 hover:rounded-[2.5rem]">
               <div className="flex items-start justify-between gap-3">
-                <span className="font-block text-sm tracking-widest text-accent">{ia.categoria}</span>
-                <span className={`rounded-full px-3 py-0.5 font-block text-base tracking-wider ${planoCor[ia.plano]}`}>{ia.plano}</span>
+                <span className="rounded-full bg-accent/15 px-3 py-0.5 font-block text-sm font-semibold tracking-wide text-accent">{ia.categoria}</span>
+                <span className={`rounded-full px-3 py-0.5 font-block text-sm font-semibold tracking-wide ${planoCor[ia.plano]}`}>{ia.plano}</span>
               </div>
-              <h3 className="mt-2 font-display text-3xl text-primary">{ia.nome}</h3>
+              <h3 className="mt-3 font-display text-3xl font-semibold text-primary">{ia.nome}</h3>
               <p className="mt-3 text-card-foreground">{ia.funcao}</p>
               <p className="mt-3 text-sm text-muted-foreground"><strong className="text-foreground">Na prática:</strong> {ia.uso}</p>
               <div className="mt-4">
-                <p className="font-block text-lg tracking-wider">Pontos fortes</p>
-                <ul className="mt-1 flex flex-wrap gap-2">
+                <p className="font-block text-base font-semibold tracking-wide">Pontos fortes</p>
+                <ul className="mt-1.5 flex flex-wrap gap-2">
                   {ia.fortes.map((f) => <li key={f} className="rounded-full bg-muted px-3 py-1 text-sm">{f}</li>)}
                 </ul>
               </div>
               <div className="mt-auto pt-5">
-                <div className="flex items-center justify-between font-block text-lg tracking-wider"><span>Avaliação</span><span className="text-primary">{ia.nota}/10</span></div>
-                <div className="mt-1 h-2.5 overflow-hidden rounded-full bg-muted"><div className="h-full rounded-full bg-gradient-to-r from-secondary to-spray" style={{ width: `${ia.nota * 10}%` }} /></div>
+                <div className="flex items-center justify-between font-block text-base font-semibold tracking-wide"><span>Avaliação</span><span className="text-primary">{ia.nota}/10</span></div>
+                <div className="mt-1.5 h-2.5 overflow-hidden rounded-full bg-muted"><div className="h-full rounded-full bg-gradient-to-r from-secondary to-spray" style={{ width: `${ia.nota * 10}%` }} /></div>
               </div>
             </article>
           ))}
@@ -95,18 +97,18 @@ function Index() {
       </section>
 
       <section className="mx-auto max-w-6xl px-5 pb-20">
-        <h2 className="font-block text-5xl tracking-wide">Legenda</h2>
+        <h2 className="font-display text-5xl font-bold tracking-wide">Legenda</h2>
         <div className="mt-6 grid gap-4 sm:grid-cols-3">
           {([["Gratuito", "Uso completo sem pagar."], ["Freemium", "Tem plano grátis com limites e versão paga."], ["Pago", "Exige assinatura para usar."]] as [Plano, string][]).map(([p, d]) => (
-            <div key={p} className="sticker rounded-3xl bg-card p-5">
-              <span className={`rounded-full px-3 py-0.5 font-block text-lg tracking-wider ${planoCor[p]}`}>{p}</span>
+            <div key={p} className="sticker card-soft rounded-[2rem] p-5">
+              <span className={`rounded-full px-3 py-0.5 font-block text-base font-semibold tracking-wide ${planoCor[p]}`}>{p}</span>
               <p className="mt-3 text-muted-foreground">{d}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <footer className="border-t border-border py-8 text-center font-display text-xl text-muted-foreground">Mural das IAs — feito na rua digital</footer>
+      <footer className="py-8 text-center font-display text-xl text-muted-foreground">Mural das IAs — feito na rua digital</footer>
     </main>
   );
 }
