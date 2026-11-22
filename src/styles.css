@@ -35,16 +35,16 @@
 }
 
 :root {
-  --radius: 0.25rem;
-  --background: oklch(0.17 0.005 270);
+  --radius: 1.25rem;
+  --background: oklch(0.2 0.02 285);
   --foreground: oklch(0.96 0.01 95);
-  --card: oklch(0.22 0.008 270);
+  --card: oklch(0.25 0.025 285);
   --card-foreground: oklch(0.96 0.01 95);
   --popover: oklch(0.22 0.008 270);
   --popover-foreground: oklch(0.96 0.01 95);
-  --primary: oklch(0.9 0.19 110);
+  --primary: oklch(0.88 0.15 115);
   --primary-foreground: oklch(0.15 0.01 270);
-  --secondary: oklch(0.68 0.24 350);
+  --secondary: oklch(0.75 0.17 355);
   --secondary-foreground: oklch(0.98 0 0);
   --muted: oklch(0.28 0.01 270);
   --muted-foreground: oklch(0.78 0.01 270);
@@ -54,11 +54,11 @@
   --spray-foreground: oklch(0.15 0.01 270);
   --destructive: oklch(0.65 0.23 27);
   --destructive-foreground: oklch(0.98 0 0);
-  --border: oklch(0.35 0.01 270);
+  --border: oklch(0.38 0.03 285);
   --input: oklch(0.35 0.01 270);
   --ring: oklch(0.9 0.19 110);
-  --shadow-sticker: 6px 6px 0 0 var(--primary);
-  --shadow-sticker-pink: 6px 6px 0 0 var(--secondary);
+  --shadow-sticker: 0 20px 40px -20px color-mix(in oklab, var(--secondary) 55%, transparent), 0 0 0 1px color-mix(in oklab, var(--foreground) 6%, transparent);
+  --shadow-sticker-pink: 0 10px 30px -8px color-mix(in oklab, var(--primary) 60%, transparent);
 }
 
 @layer base {
@@ -70,15 +70,14 @@
     background-image:
       radial-gradient(circle at 15% 20%, color-mix(in oklab, var(--secondary) 18%, transparent), transparent 40%),
       radial-gradient(circle at 85% 60%, color-mix(in oklab, var(--accent) 14%, transparent), transparent 40%),
-      repeating-linear-gradient(0deg, transparent 0 60px, color-mix(in oklab, var(--foreground) 4%, transparent) 60px 62px),
-      repeating-linear-gradient(90deg, transparent 0 120px, color-mix(in oklab, var(--foreground) 3%, transparent) 120px 122px);
+      radial-gradient(circle at 50% 100%, color-mix(in oklab, var(--primary) 8%, transparent), transparent 50%);
     background-attachment: fixed;
   }
 }
 
 @utility tag-text {
   font-family: var(--font-display);
-  text-shadow: 3px 3px 0 var(--secondary), 6px 6px 0 color-mix(in oklab, var(--background) 80%, transparent);
+  text-shadow: 0 0 30px color-mix(in oklab, var(--primary) 45%, transparent), 3px 3px 0 color-mix(in oklab, var(--secondary) 70%, transparent);
 }
 @utility sticker {
   box-shadow: var(--shadow-sticker);
