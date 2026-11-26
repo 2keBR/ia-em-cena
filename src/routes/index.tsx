@@ -241,12 +241,6 @@ function Index() {
         <a href="#tabela" className="sticker-pink mt-8 inline-block rounded-full bg-primary px-8 py-3 font-block text-xl font-semibold tracking-wide text-primary-foreground transition-transform hover:-translate-y-1">Ver a tabela ↓</a>
       </header>
 
-      <section className="px-5">
-        <div className="mx-auto flex max-w-6xl flex-wrap justify-center gap-x-8 gap-y-1 rounded-full bg-secondary/90 px-8 py-3 font-block text-lg font-semibold tracking-wide text-secondary-foreground">
-          {IAS.map((i) => <span key={i.nome}>★ {i.nome}</span>)}
-        </div>
-      </section>
-
       <section id="tabela" className="mx-auto max-w-6xl px-5 py-16">
         <h2 className="font-display text-5xl font-bold tracking-wide md:text-6xl">Tabela das IAs</h2>
         <p className="mt-3 text-muted-foreground">
