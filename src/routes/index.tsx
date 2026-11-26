@@ -5,10 +5,10 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 export const Route = createFileRoute("/")({
   head: () => ({
     meta: [
-      { title: "Mural das IAs — Guia urbano de ferramentas de IA" },
-      { name: "description", content: "Cards com função, uso prático, pontos fortes e se cada IA é gratuita ou paga." },
+      { title: "Mural das IAs — Tabela de ferramentas de IA" },
+      { name: "description", content: "Tabela com todas as IAs disponíveis: função, uso prático, pontos fortes, nota e se é gratuita ou paga." },
       { property: "og:title", content: "Mural das IAs" },
-      { property: "og:description", content: "Guia urbano das principais ferramentas de IA, no estilo grafite." },
+      { property: "og:description", content: "Todas as ferramentas de IA em uma tabela: função, uso, nota e plano." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary_large_image" },
     ],
@@ -208,8 +208,21 @@ const planoCor: Record<Plano, string> = {
 
 function Index() {
   const [cat, setCat] = useState("Todas");
+  const [busca, setBusca] = useState("");
   const [selecionada, setSelecionada] = useState<IA | null>(null);
-  const lista = useMemo(() => (cat === "Todas" ? IAS : IAS.filter((i) => i.categoria === cat)), [cat]);
+
+  const lista = useMemo(() => {
+    const q = busca.trim().toLowerCase();
+    return IAS.filter((i) => {
+      const naCat = cat === "Todas" || i.categoria === cat;
+      const naBusca =
+        q === "" ||
+        i.nome.toLowerCase().includes(q) ||
+        i.funcao.toLowerCase().includes(q) ||
+        i.categoria.toLowerCase().includes(q);
+      return naCat && naBusca;
+    });
+  }, [cat, busca]);
 
   return (
     <main className="min-h-screen overflow-x-hidden">
@@ -221,7 +234,7 @@ function Index() {
         <p className="mt-8 max-w-xl text-lg text-muted-foreground">
           As ferramentas de inteligência artificial que valem a pena — sem enrolação: o que fazem, onde usar, no que mandam bem e quanto custam.
         </p>
-        <a href="#ias" className="sticker-pink mt-8 inline-block rounded-full bg-primary px-8 py-3 font-block text-xl font-semibold tracking-wide text-primary-foreground transition-transform hover:-translate-y-1">Ver o mural ↓</a>
+        <a href="#tabela" className="sticker-pink mt-8 inline-block rounded-full bg-primary px-8 py-3 font-block text-xl font-semibold tracking-wide text-primary-foreground transition-transform hover:-translate-y-1">Ver a tabela ↓</a>
       </header>
 
       <section className="px-5">
@@ -230,43 +243,96 @@ function Index() {
         </div>
       </section>
 
-      <section id="ias" className="mx-auto max-w-6xl px-5 py-16">
-        <h2 className="font-display text-5xl font-bold tracking-wide md:text-6xl">As ferramentas</h2>
-        <p className="mt-3 text-muted-foreground">Toque em um card para ver a explicação completa de por que a IA é boa na função dela.</p>
-        <div className="mt-6 flex flex-wrap gap-2">
-          {CATS.map((c) => (
-            <button key={c} onClick={() => setCat(c)}
-              className={`rounded-full border border-border px-5 py-1.5 font-block text-base font-semibold tracking-wide transition-all ${cat === c ? "border-transparent bg-primary text-primary-foreground" : "bg-card text-foreground hover:bg-muted"}`}>
-              {c}
-            </button>
-          ))}
+      <section id="tabela" className="mx-auto max-w-6xl px-5 py-16">
+        <h2 className="font-display text-5xl font-bold tracking-wide md:text-6xl">Tabela das IAs</h2>
+        <p className="mt-3 text-muted-foreground">
+          Todas as {IAS.length} IAs disponíveis em uma tabela. Toque em qualquer linha para ver a explicação completa de por que ela é boa na função dela.
+        </p>
+
+        <div className="mt-6 flex flex-wrap items-center gap-3">
+          <input
+            type="search"
+            value={busca}
+            onChange={(e) => setBusca(e.target.value)}
+            placeholder="Buscar IA, função ou categoria…"
+            aria-label="Buscar IA"
+            className="w-full max-w-xs rounded-full border border-border bg-card px-5 py-2 text-base text-foreground outline-none transition-colors placeholder:text-muted-foreground focus:border-accent md:w-auto"
+          />
+          <div className="flex flex-wrap gap-2">
+            {CATS.map((c) => (
+              <button key={c} onClick={() => setCat(c)}
+                className={`rounded-full border border-border px-5 py-1.5 font-block text-base font-semibold tracking-wide transition-all ${cat === c ? "border-transparent bg-primary text-primary-foreground" : "bg-card text-foreground hover:bg-muted"}`}>
+                {c}
+              </button>
+            ))}
+          </div>
         </div>
 
-        <div className="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {lista.map((ia) => (
-            <article key={ia.nome} onClick={() => setSelecionada(ia)}
-              className="sticker card-soft group flex cursor-pointer flex-col rounded-[2rem] p-6 transition-all duration-300 hover:-translate-y-1.5 hover:rounded-[2.5rem]">
-              <div className="flex items-start justify-between gap-3">
-                <span className="rounded-full bg-accent/15 px-3 py-0.5 font-block text-sm font-semibold tracking-wide text-accent">{ia.categoria}</span>
-                <span className={`rounded-full px-3 py-0.5 font-block text-sm font-semibold tracking-wide ${planoCor[ia.plano]}`}>{ia.plano}</span>
-              </div>
-              <h3 className="mt-3 font-display text-3xl font-semibold text-primary">{ia.nome}</h3>
-              <p className="mt-3 text-card-foreground">{ia.funcao}</p>
-              <p className="mt-3 text-sm text-muted-foreground"><strong className="text-foreground">Na prática:</strong> {ia.uso}</p>
-              <div className="mt-4">
-                <p className="font-block text-base font-semibold tracking-wide">Pontos fortes</p>
-                <ul className="mt-1.5 flex flex-wrap gap-2">
-                  {ia.fortes.map((f) => <li key={f} className="rounded-full bg-muted px-3 py-1 text-sm">{f}</li>)}
-                </ul>
-              </div>
-              <div className="mt-auto pt-5">
-                <div className="flex items-center justify-between font-block text-base font-semibold tracking-wide"><span>Avaliação</span><span className="text-primary">{ia.nota}/10</span></div>
-                <div className="mt-1.5 h-2.5 overflow-hidden rounded-full bg-muted"><div className="h-full rounded-full bg-gradient-to-r from-secondary to-spray" style={{ width: `${ia.nota * 10}%` }} /></div>
-                <p className="mt-3 text-center font-block text-sm font-semibold tracking-wide text-accent">Toque para saber por que ela é boa →</p>
-              </div>
-            </article>
-          ))}
+        <div className="mt-8 overflow-hidden rounded-[2rem] border border-border bg-card/70">
+          <div className="overflow-x-auto">
+            <table className="w-full border-collapse text-left">
+              <thead>
+                <tr className="bg-muted/70 font-block text-base font-semibold tracking-wide text-foreground">
+                  <th scope="col" className="hidden px-3 py-4 md:table-cell md:px-5">#</th>
+                  <th scope="col" className="px-3 py-4 md:px-5">IA</th>
+                  <th scope="col" className="hidden px-3 py-4 md:table-cell md:px-5">Categoria</th>
+                  <th scope="col" className="hidden px-3 py-4 lg:table-cell lg:px-5">Função</th>
+                  <th scope="col" className="px-3 py-4 md:px-5">Plano</th>
+                  <th scope="col" className="px-3 py-4 md:px-5">Nota</th>
+                </tr>
+              </thead>
+              <tbody>
+                {lista.map((ia, idx) => (
+                  <tr
+                    key={ia.nome}
+                    onClick={() => setSelecionada(ia)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" || e.key === " ") {
+                        e.preventDefault();
+                        setSelecionada(ia);
+                      }
+                    }}
+                    tabIndex={0}
+                    aria-label={`Ver detalhes de ${ia.nome}`}
+                    className="group cursor-pointer border-t border-border/70 transition-colors hover:bg-accent/10 focus-visible:bg-accent/15 focus-visible:outline-none"
+                  >
+                    <td className="hidden px-3 py-4 font-block text-sm text-muted-foreground md:table-cell md:px-5">{idx + 1}</td>
+                    <td className="px-3 py-4 md:px-5">
+                      <span className="font-display text-lg font-semibold text-primary transition-colors group-hover:text-secondary md:text-xl">{ia.nome}</span>
+                      <span className="mt-1 block w-fit rounded-full bg-accent/15 px-2.5 py-0.5 font-block text-xs font-semibold tracking-wide text-accent md:hidden">{ia.categoria}</span>
+                    </td>
+                    <td className="hidden px-3 py-4 md:table-cell md:px-5">
+                      <span className="whitespace-nowrap rounded-full bg-accent/15 px-3 py-0.5 font-block text-sm font-semibold tracking-wide text-accent">{ia.categoria}</span>
+                    </td>
+                    <td className="hidden px-3 py-4 text-sm text-muted-foreground lg:table-cell lg:px-5">{ia.funcao}</td>
+                    <td className="px-3 py-4 md:px-5">
+                      <span className={`whitespace-nowrap rounded-full px-2.5 py-0.5 font-block text-xs font-semibold tracking-wide md:px-3 md:py-0.5 md:text-sm ${planoCor[ia.plano]}`}>{ia.plano}</span>
+                    </td>
+                    <td className="px-3 py-4 md:px-5">
+                      <div className="flex items-center gap-2">
+                        <span className="font-block text-sm font-semibold text-primary md:text-base">{ia.nota}/10</span>
+                        <span className="inline-block h-2 w-10 overflow-hidden rounded-full bg-muted sm:w-16">
+                          <span className="block h-full rounded-full bg-gradient-to-r from-secondary to-spray" style={{ width: `${ia.nota * 10}%` }} />
+                        </span>
+                      </div>
+                    </td>
+                  </tr>
+                ))}
+                {lista.length === 0 && (
+                  <tr className="border-t border-border/70">
+                    <td colSpan={6} className="px-5 py-10 text-center text-muted-foreground">
+                      Nenhuma IA encontrada com esse filtro ou busca.
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
         </div>
+
+        <p className="mt-4 text-center text-sm text-muted-foreground">
+          Mostrando {lista.length} de {IAS.length} IAs.
+        </p>
       </section>
 
       <Dialog open={selecionada !== null} onOpenChange={(aberto) => !aberto && setSelecionada(null)}>
