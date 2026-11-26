@@ -1,9 +1,10 @@
 import { fireEvent, render, screen, within } from "@testing-library/react";
+import type { ComponentType } from "react";
 import { describe, expect, it } from "vitest";
 
 import { Route } from "@/routes/index";
 
-const Pagina = Route.options.component as () => JSX.Element;
+const Pagina = Route.options.component as ComponentType;
 
 describe("Tabela de IAs", () => {
   it("mostra as 21 IAs em linhas de uma tabela", () => {
