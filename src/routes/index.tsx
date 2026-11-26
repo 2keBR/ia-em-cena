@@ -210,6 +210,10 @@ function Index() {
   const [cat, setCat] = useState("Todas");
   const [busca, setBusca] = useState("");
   const [selecionada, setSelecionada] = useState<IA | null>(null);
+  const [popularesAberto, setPopularesAberto] = useState(false);
+  const populares = ["ChatGPT", "Gemini", "Claude", "Microsoft Copilot", "DeepSeek", "Perplexity", "Grok", "GitHub Copilot"]
+    .map((nome) => IAS.find((ia) => ia.nome === nome))
+    .filter((ia): ia is IA => ia !== undefined);
 
   const lista = useMemo(() => {
     const q = busca.trim().toLowerCase();
@@ -334,6 +338,41 @@ function Index() {
           Mostrando {lista.length} de {IAS.length} IAs.
         </p>
       </section>
+
+      <button
+        type="button"
+        onClick={() => setPopularesAberto(true)}
+        className="fixed bottom-5 right-5 z-40 rounded-full bg-primary px-5 py-3 font-block text-base font-semibold tracking-wide text-primary-foreground shadow-xl transition-transform hover:-translate-y-1 hover:scale-105 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent sm:bottom-7 sm:right-7 sm:px-6 sm:py-4 sm:text-lg"
+        aria-label="Abrir lista de IAs populares"
+      >
+        🔥 <span className="hidden sm:inline">IAs populares</span><span className="sm:hidden">Populares</span>
+      </button>
+
+      <Dialog open={popularesAberto} onOpenChange={setPopularesAberto}>
+        <DialogContent className="card-soft max-h-[85vh] overflow-y-auto rounded-[2rem] border-border sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle className="font-display text-4xl font-semibold text-primary">🔥 IAs populares</DialogTitle>
+            <DialogDescription className="text-base text-muted-foreground">Uma seleção de ferramentas de IA bastante usadas e conhecidas.</DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-3 pt-2">
+            {populares.map((ia, index) => (
+              <button
+                type="button"
+                key={ia.nome}
+                onClick={() => { setPopularesAberto(false); setSelecionada(ia); }}
+                className="flex items-start gap-3 rounded-2xl border border-border bg-card p-4 text-left transition-colors hover:bg-accent/10 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+              >
+                <span className="font-block text-lg text-primary">{index + 1}.</span>
+                <span className="min-w-0 flex-1">
+                  <span className="block font-display text-xl font-semibold text-primary">{ia.nome}</span>
+                  <span className="mt-0.5 block text-sm text-muted-foreground">{ia.categoria} · {ia.funcao}</span>
+                </span>
+                <span className="text-muted-foreground">↗</span>
+              </button>
+            ))}
+          </div>
+        </DialogContent>
+      </Dialog>
 
       <Dialog open={selecionada !== null} onOpenChange={(aberto) => !aberto && setSelecionada(null)}>
         <DialogContent className="card-soft max-h-[85vh] overflow-y-auto rounded-[2rem] border-border sm:max-w-lg">
