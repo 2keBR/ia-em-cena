@@ -555,6 +555,16 @@ function Index() {
                   <div className="flex items-center justify-between font-block text-base font-semibold tracking-wide"><span>Avaliação</span><span className="text-primary">{selecionada.nota}/10</span></div>
                   <div className="mt-1.5 h-2.5 overflow-hidden rounded-full bg-muted"><div className="h-full rounded-full bg-gradient-to-r from-secondary to-spray" style={{ width: `${selecionada.nota * 10}%` }} /></div>
                 </div>
+
+                <a
+                  href={`https://www.youtube.com/results?search_query=${encodeURIComponent(`como usar ${selecionada.nome} tutorial para iniciantes português`)}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 font-block text-base font-semibold tracking-wide text-primary-foreground transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
+                >
+                  🎥 Ver tutorial recomendado no YouTube
+                </a>
+                <p className="text-center text-xs text-muted-foreground">Abrimos uma busca por tutoriais em português para essa ferramenta, para você escolher um vídeo atualizado.</p>
               </div>
             </>
           )}
