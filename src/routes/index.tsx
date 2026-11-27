@@ -351,6 +351,49 @@ const IAS: IA[] = [
   },
 ];
 
+const IA_DOMAINS: Record<string, string> = {
+  "ChatGPT": "chatgpt.com",
+  "Gemini": "gemini.google.com",
+  "Claude": "claude.ai",
+  "Grok": "grok.com",
+  "DeepSeek": "deepseek.com",
+  "Midjourney": "midjourney.com",
+  "Stable Diffusion": "stability.ai",
+  "DALL·E": "openai.com",
+  "Leonardo AI": "leonardo.ai",
+  "GitHub Copilot": "github.com",
+  "Cursor": "cursor.com",
+  "Lovable": "lovable.dev",
+  "ElevenLabs": "elevenlabs.io",
+  "Suno": "suno.com",
+  "Whisper": "openai.com",
+  "Runway": "runwayml.com",
+  "Sora": "openai.com",
+  "CapCut IA": "capcut.com",
+  "Perplexity": "perplexity.ai",
+  "NotebookLM": "notebooklm.google.com",
+  "Microsoft Copilot": "copilot.microsoft.com",
+  "Mistral Le Chat": "mistral.ai",
+  "Qwen": "qwen.ai",
+  "Poe": "poe.com",
+  "Notion AI": "notion.so",
+  "Canva Magic Studio": "canva.com",
+  "Adobe Firefly": "adobe.com",
+  "Ideogram": "ideogram.ai",
+  "Krea AI": "krea.ai",
+  "Gamma": "gamma.app",
+  "HeyGen": "heygen.com",
+  "Pika": "pika.art",
+  "Luma Dream Machine": "lumalabs.ai",
+  "Zapier AI": "zapier.com",
+  "AIVA": "aiva.ai",
+  "Udio": "udio.com",
+  "Replit AI": "replit.com",
+  "Windsurf": "windsurf.com",
+  "Phind": "phind.com",
+  "Consensus": "consensus.app"
+};
+
 const CATS = ["Todas", ...Array.from(new Set(IAS.map((i) => i.categoria)))];
 const planoCor: Record<Plano, string> = {
   Gratuito: "bg-primary text-primary-foreground",
@@ -448,7 +491,7 @@ function Index() {
                   >
                     <td className="hidden px-3 py-4 font-block text-sm text-muted-foreground md:table-cell md:px-5">{idx + 1}</td>
                     <td className="px-3 py-4 md:px-5">
-                      <span className="font-display text-lg font-semibold text-primary transition-colors group-hover:text-secondary md:text-xl">{ia.nome}</span>
+                      <span className="inline-flex items-center gap-2 font-display text-lg font-semibold text-primary transition-colors group-hover:text-secondary md:text-xl"><img src={`https://www.google.com/s2/favicons?domain=${IA_DOMAINS[ia.nome] ?? "google.com"}&sz=64`} alt="" className="h-6 w-6 rounded-md object-contain" loading="lazy" />{ia.nome}</span>
                       <span className="mt-1 block w-fit rounded-full bg-accent/15 px-2.5 py-0.5 font-block text-xs font-semibold tracking-wide text-accent md:hidden">{ia.categoria}</span>
                     </td>
                     <td className="hidden px-3 py-4 md:table-cell md:px-5">
@@ -510,7 +553,7 @@ function Index() {
               >
                 <span className="font-block text-lg text-primary">{index + 1}.</span>
                 <span className="min-w-0 flex-1">
-                  <span className="block font-display text-xl font-semibold text-primary">{ia.nome}</span>
+                  <span className="flex items-center gap-2 font-display text-xl font-semibold text-primary"><img src={`https://www.google.com/s2/favicons?domain=${IA_DOMAINS[ia.nome] ?? "google.com"}&sz=64`} alt="" className="h-6 w-6 rounded-md object-contain" loading="lazy" />{ia.nome}</span>
                   <span className="mt-0.5 block text-sm text-muted-foreground">{ia.categoria} · {ia.funcao}</span>
                 </span>
                 <span className="text-muted-foreground">↗</span>
@@ -529,7 +572,7 @@ function Index() {
                   <span className="rounded-full bg-accent/15 px-3 py-0.5 font-block text-sm font-semibold tracking-wide text-accent">{selecionada.categoria}</span>
                   <span className={`rounded-full px-3 py-0.5 font-block text-sm font-semibold tracking-wide ${planoCor[selecionada.plano]}`}>{selecionada.plano}</span>
                 </div>
-                <DialogTitle className="font-display text-4xl font-semibold text-primary">{selecionada.nome}</DialogTitle>
+                <DialogTitle className="flex items-center gap-3 font-display text-4xl font-semibold text-primary"><img src={`https://www.google.com/s2/favicons?domain=${IA_DOMAINS[selecionada.nome] ?? "google.com"}&sz=64`} alt="" className="h-9 w-9 rounded-lg object-contain" />{selecionada.nome}</DialogTitle>
                 <DialogDescription className="text-base text-muted-foreground">{selecionada.funcao}</DialogDescription>
               </DialogHeader>
 
