@@ -562,7 +562,7 @@ function Index() {
                   rel="noopener noreferrer"
                   className="flex w-full items-center justify-center gap-2 rounded-full bg-primary px-5 py-3 font-block text-base font-semibold tracking-wide text-primary-foreground transition-transform hover:-translate-y-0.5 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-accent"
                 >
-                  🎥 Ver tutorial recomendado no YouTube
+                  🎥 Aprenda a usá-la.
                 </a>
                 <p className="text-center text-xs text-muted-foreground">Abrimos uma busca por tutoriais em português para essa ferramenta, para você escolher um vídeo atualizado.</p>
               </div>
